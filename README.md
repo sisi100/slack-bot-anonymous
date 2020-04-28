@@ -1,5 +1,6 @@
 # 匿名SlackBot
 
+詳しくはこちら（ https://blog.i-tale.jp/2020/04/28/ ）
 
 ## 初期化
 
