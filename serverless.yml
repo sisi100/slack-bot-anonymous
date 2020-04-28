@@ -1,0 +1,38 @@
+service: slack-bot-anonymous-demo
+
+provider:
+  name: aws
+  runtime: python3.7
+  endpointType: REGIONAL
+  region: ap-northeast-1
+  stage: dev
+  memorySize: 128
+
+  # 環境変数（適宜変更してくださいj）
+  environment:
+    SLACK_CHANNEL: "#general"
+    SLACK_ICON: ':ghost:'
+    SLACK_USER_NAME: '匿名Bot'
+
+  iamRoleStatements:
+   - Effect: "Allow"
+     Action:
+       - "ssm:GetParameter"
+     Resource: "arn:aws:ssm:ap-northeast-1:*:parameter/slack-bot-anonymous-demo/*"
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./anonymous.py
+
+functions:
+  main:
+    handler: anonymous.handler
+    
+    events:
+      - http:
+          path: slack-bot/anonymous
+          method: POST
+          cors: True
+    
