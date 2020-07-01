@@ -17,7 +17,7 @@ provider:
   iamRoleStatements:
    - Effect: "Allow"
      Action:
-       - "ssm:GetParameter"
+       - "ssm:GetParameters"
      Resource: "arn:aws:ssm:ap-northeast-1:*:parameter/slack-bot-anonymous-demo/*"
 
 package:
@@ -25,6 +25,7 @@ package:
     - ./**
   include:
     - ./anonymous.py
+    - ./setting.py
 
 functions:
   main:

@@ -7,7 +7,7 @@ docker-up:
 init:
 	cp .env.aws-credentials.sample .env.aws-credentials
 	cp .env.slack_token.sample .env.slack_token
-	
+
 set_token:
 	$(DOCKER) run sls sh set_token.sh
 
@@ -19,3 +19,9 @@ deploy:
 
 remove:
 	$(DOCKER) run sls sls remove
+
+black:
+	black .
+
+isort:
+	isort -rc

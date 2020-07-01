@@ -2,24 +2,7 @@ import json
 import os
 import urllib.request
 
-import boto3
-
-CLIENT = boto3.client("ssm")
-
-
-def get_parameter(name: str) -> str:
-    response = CLIENT.get_parameter(
-        Name="/slack-bot-anonymous-demo/%s" % name, WithDecryption=True
-    )
-    return response["Parameter"]["Value"]
-
-
-def get_slack_bot_user_access_token() -> str:
-    return get_parameter("slack_bot_user_access_token")
-
-
-def get_slack_app_auth_token() -> str:
-    return get_parameter("slack_app_auth_token")
+from setting import USER_ACCESS_TOKEN
 
 
 def post_message(message: str) -> None:
@@ -30,10 +13,9 @@ def post_message(message: str) -> None:
     url = "https://slack.com/api/chat.postMessage"
     headers = {
         "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer %s" % get_slack_bot_user_access_token(),
+        "Authorization": f"Bearer {USER_ACCESS_TOKEN}",
     }
     data = {
-        "token": get_slack_app_auth_token(),
         "channel": os.environ["SLACK_CHANNEL"],
         "username": os.environ["SLACK_USER_NAME"],
         "icon_emoji": os.environ["SLACK_ICON"],
